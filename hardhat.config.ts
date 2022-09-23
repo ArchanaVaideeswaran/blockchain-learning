@@ -1,10 +1,11 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomiclabs/hardhat-waffle";
+import "@nomiclabs/hardhat-ethers";
 import "@typechain/hardhat";
 import "solidity-coverage";
+import "@nomicfoundation/hardhat-chai-matchers";
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.17",
+  solidity: "0.8.7",
   paths: {
     sources: "./contracts/",
     tests: "./test",
