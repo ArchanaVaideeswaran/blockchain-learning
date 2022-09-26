@@ -30,20 +30,13 @@ describe("Pie Token", () => {
 
     it("should execute successfylly if caller is not a contract",async () => {
         let to = owner.address;
-        let amount = ethers.utils.parseEther("10");
+        // let amount = ethers.utils.parseEther("10"); // Gives big number overflow exception in assertion
+        let amount = 10;
 
         // Mint
-        let tx = await Pie.mint(to, amount);
-        await tx.wait();
-
-        let bal = await Pie.balanceOf(to);
-        expect(bal.toString()).to.equal(amount.toString());
+        await expect(Pie.mint(to, amount)).to.changeTokenBalance(Pie, to, 10);
 
         // Burn
-        tx = await Pie.burn(to, amount);
-        await tx.wait();
-
-        bal = await Pie.balanceOf(to);
-        expect(bal.toString()).to.equal("0");
-    })
+        await expect(Pie.burn(to, amount)).to.changeTokenBalance(Pie, to, -10);
+    });
 });
