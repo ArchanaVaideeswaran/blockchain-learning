@@ -6,16 +6,17 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract PieToken is ERC20 {
     constructor() ERC20("Pie Token", "PIE") {}
 
-    modifier isNotContract() {
-        require(!(msg.sender.code.length > 0), "caller cannot be contract");
-        _;
-    }
-
-    function mint(address to, uint amount) external isNotContract {
+    function mint(address to, uint amount) external {
+        ensureNotContract();
         _mint(to, amount);
     }
 
-    function burn(address account, uint amount) external isNotContract {
+    function burn(address account, uint amount) external {
+        ensureNotContract();
         _burn(account, amount);
+    }
+
+    function ensureNotContract() private view {
+        require(msg.sender.code.length == 0, "Caller cannot be contract");
     }
 }
